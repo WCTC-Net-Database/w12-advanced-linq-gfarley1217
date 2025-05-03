@@ -84,11 +84,11 @@ namespace ConsoleRpgEntities.Data
         {
             // Seed data for items
             modelBuilder.Entity<Item>().HasData(
-                new Item { Id = 1, Name = "Iron Sword", Type = "Weapon", Attack = 10, Defense = 0, Weight = 3.5m, Value = 50 },
-                new Item { Id = 2, Name = "Steel Shield", Type = "Armor", Attack = 0, Defense = 15, Weight = 5.0m, Value = 75 },
-                new Item { Id = 3, Name = "Health Potion", Type = "Potion", Attack = 0, Defense = 0, Weight = 0.5m, Value = 25 },
-                new Item { Id = 4, Name = "Magic Staff", Type = "Weapon", Attack = 20, Defense = 5, Weight = 4.0m, Value = 100 },
-                new Item { Id = 5, Name = "Leather Armor", Type = "Armor", Attack = 0, Defense = 10, Weight = 6.0m, Value = 60 }
+                new Item { Id = 1, Name = "Iron Sword", Type = "Weapon", Attack = 10, Defense = 0, Weight = 3.50m, Value = 50 },
+                new Item { Id = 2, Name = "Steel Shield", Type = "Armor", Attack = 0, Defense = 15, Weight = 5.00m, Value = 75 },
+                new Item { Id = 3, Name = "Health Potion", Type = "Potion", Attack = 0, Defense = 0, Weight = 0.50m, Value = 25 },
+                new Item { Id = 4, Name = "Magic Staff", Type = "Weapon", Attack = 20, Defense = 5, Weight = 4.00m, Value = 100 },
+                new Item { Id = 5, Name = "Leather Armor", Type = "Armor", Attack = 0, Defense = 10, Weight = 6.00m, Value = 60 }
             );
         }
     }
