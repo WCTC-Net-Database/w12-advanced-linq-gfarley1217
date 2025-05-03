@@ -2,6 +2,7 @@
 using ConsoleRpgEntities.Models.Attributes;
 using System.ComponentModel.DataAnnotations;
 using ConsoleRpgEntities.Models.Equipments;
+using ConsoleRpgEntities.Models.Inventory;
 
 namespace ConsoleRpgEntities.Models.Characters
 {
@@ -16,17 +17,16 @@ namespace ConsoleRpgEntities.Models.Characters
         public int? EquipmentId { get; set; }
 
         // Navigation properties
-        public virtual Inventory Inventory { get; set; }
+        public virtual ConsoleRpgEntities.Models.Inventory.Inventory Inventory { get; set; }
+
         public virtual Equipment Equipment { get; set; }
         public virtual ICollection<Ability> Abilities { get; set; }
 
         public void Attack(ITargetable target)
         {
-            // Player-specific attack logic
             Console.WriteLine($"{Name} attacks {target.Name} with a {Equipment.Weapon.Name} dealing {Equipment.Weapon.Attack} damage!");
             target.Health -= Equipment.Weapon.Attack;
-            System.Console.WriteLine($"{target.Name} has {target.Health} health remaining.");
-
+            Console.WriteLine($"{target.Name} has {target.Health} health remaining.");
         }
 
         public void UseAbility(IAbility ability, ITargetable target)
@@ -42,3 +42,4 @@ namespace ConsoleRpgEntities.Models.Characters
         }
     }
 }
+

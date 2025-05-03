@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleRpgEntities.Models.Equipments
+namespace ConsoleRpgEntities.Models.Inventory
 {
     public class Inventory
     {

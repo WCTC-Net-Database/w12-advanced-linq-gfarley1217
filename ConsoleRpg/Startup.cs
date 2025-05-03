@@ -3,6 +3,7 @@ using ConsoleRpg.Helpers;
 using ConsoleRpg.Services;
 using ConsoleRpgEntities.Data;
 using ConsoleRpgEntities.Helpers;
+using ConsoleRpgEntities.Models.Inventory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,10 @@ public static class Startup
         var configuration = ConfigurationHelper.GetConfiguration();
 
         // Create and bind FileLoggerOptions
-        var fileLoggerOptions = new NReco.Logging.File.FileLoggerOptions();
+        var fileLoggerOptions = new NReco.Logging.File.FileLoggerOptions
+        {
+            Append = true // Enable appending to the log file
+        };
         configuration.GetSection("Logging:File").Bind(fileLoggerOptions);
 
         // Configure logging
@@ -33,7 +37,6 @@ public static class Startup
 
             // Add File logger using the correct constructor
             var logFileName = "Logs/log.txt"; // Specify the log file path
-
             loggingBuilder.AddProvider(new FileLoggerProvider(logFileName, fileLoggerOptions));
         });
 
@@ -44,10 +47,14 @@ public static class Startup
             ConfigurationHelper.ConfigureDbContextOptions(options, connectionString);
         });
 
-
         // Register your services
         services.AddTransient<GameEngine>();
         services.AddTransient<MenuManager>();
         services.AddSingleton<OutputManager>();
+
+        // Register InventoryService
+        services.AddSingleton<IInventoryService, InventoryService>();
     }
 }
+
+

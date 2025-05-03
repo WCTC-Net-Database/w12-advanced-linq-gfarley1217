@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ConsoleRpgEntities.Models.Equipments;
+namespace ConsoleRpgEntities.Models.Inventory;
 
 
 // TODO note this model has been updated from the previous version so a migration will be needed

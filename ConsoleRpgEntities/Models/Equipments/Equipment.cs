@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using ConsoleRpgEntities.Models.Inventory;
 
 namespace ConsoleRpgEntities.Models.Equipments;
 
