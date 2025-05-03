@@ -23,12 +23,12 @@ namespace ConsoleRpgEntities.Data
         {
             // Configure TPH for Character hierarchy
             modelBuilder.Entity<Monster>()
-                .HasDiscriminator<string>(m=> m.MonsterType)
+                .HasDiscriminator<string>(m => m.MonsterType)
                 .HasValue<Goblin>("Goblin");
 
             // Configure TPH for Ability hierarchy
             modelBuilder.Entity<Ability>()
-                .HasDiscriminator<string>(pa=>pa.AbilityType)
+                .HasDiscriminator<string>(pa => pa.AbilityType)
                 .HasValue<ShoveAbility>("ShoveAbility");
 
             // Configure many-to-many relationship
@@ -39,6 +39,9 @@ namespace ConsoleRpgEntities.Data
 
             // Call the separate configuration method to set up Equipment entity relationships
             ConfigureEquipmentRelationships(modelBuilder);
+
+            // Seed data for items
+            SeedItems(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -56,7 +59,7 @@ namespace ConsoleRpgEntities.Data
                 .HasOne(e => e.Weapon)  // Define the relationship to the Weapon item
                 .WithMany()             // Equipment doesn't need to navigate back to Item
                 .HasForeignKey(e => e.WeaponId)  // Specifies the foreign key column in Equipment
-                //.OnDelete(DeleteBehavior.Restrict)  // Prevents cascading deletes, avoids multiple paths
+                                                 //.OnDelete(DeleteBehavior.Restrict)  // Prevents cascading deletes, avoids multiple paths
                 .IsRequired(false);
 
             // Similar configuration for ArmorId, also pointing to the Item entity.
@@ -66,7 +69,7 @@ namespace ConsoleRpgEntities.Data
                 .HasOne(e => e.Armor)  // Define the relationship to the Armor item
                 .WithMany()            // No need for reverse navigation back to Equipment
                 .HasForeignKey(e => e.ArmorId)  // Sets ArmorId as the foreign key in Equipment
-                //.OnDelete(DeleteBehavior.Restrict)  // Prevents cascading deletes to avoid conflict
+                                                //.OnDelete(DeleteBehavior.Restrict)  // Prevents cascading deletes to avoid conflict
                 .IsRequired(false);
 
             // Explanation of Why DeleteBehavior.Restrict:
@@ -76,7 +79,20 @@ namespace ConsoleRpgEntities.Data
             // (Weapon or Armor) will simply nullify the WeaponId or ArmorId in Equipment rather than 
             // cascading a delete through multiple paths.
         }
+
+        private void SeedItems(ModelBuilder modelBuilder)
+        {
+            // Seed data for items
+            modelBuilder.Entity<Item>().HasData(
+                new Item { Id = 1, Name = "Iron Sword", Type = "Weapon", Attack = 10, Defense = 0, Weight = 3.5m, Value = 50 },
+                new Item { Id = 2, Name = "Steel Shield", Type = "Armor", Attack = 0, Defense = 15, Weight = 5.0m, Value = 75 },
+                new Item { Id = 3, Name = "Health Potion", Type = "Potion", Attack = 0, Defense = 0, Weight = 0.5m, Value = 25 },
+                new Item { Id = 4, Name = "Magic Staff", Type = "Weapon", Attack = 20, Defense = 5, Weight = 4.0m, Value = 100 },
+                new Item { Id = 5, Name = "Leather Armor", Type = "Armor", Attack = 0, Defense = 10, Weight = 6.0m, Value = 60 }
+            );
+        }
     }
 }
+
 
 
