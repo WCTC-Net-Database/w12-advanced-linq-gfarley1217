@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\grant\\Source\\Repos\\w12-advanced-linq-gfarley1217\\ConsoleRpgEntities\\ConsoleRpgEntities.csproj": {}
+    "C:\\Users\\grant\\Source\\Repos\\Final-Project-GrantFarley\\ConsoleRpgEntities\\ConsoleRpgEntities.csproj": {}
   },
   "projects": {
-    "C:\\Users\\grant\\Source\\Repos\\w12-advanced-linq-gfarley1217\\ConsoleRpgEntities\\ConsoleRpgEntities.csproj": {
+    "C:\\Users\\grant\\Source\\Repos\\Final-Project-GrantFarley\\ConsoleRpgEntities\\ConsoleRpgEntities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\grant\\Source\\Repos\\w12-advanced-linq-gfarley1217\\ConsoleRpgEntities\\ConsoleRpgEntities.csproj",
+        "projectUniqueName": "C:\\Users\\grant\\Source\\Repos\\Final-Project-GrantFarley\\ConsoleRpgEntities\\ConsoleRpgEntities.csproj",
         "projectName": "ConsoleRpgEntities",
-        "projectPath": "C:\\Users\\grant\\Source\\Repos\\w12-advanced-linq-gfarley1217\\ConsoleRpgEntities\\ConsoleRpgEntities.csproj",
+        "projectPath": "C:\\Users\\grant\\Source\\Repos\\Final-Project-GrantFarley\\ConsoleRpgEntities\\ConsoleRpgEntities.csproj",
         "packagesPath": "C:\\Users\\grant\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\grant\\Source\\Repos\\w12-advanced-linq-gfarley1217\\ConsoleRpgEntities\\obj\\",
+        "outputPath": "C:\\Users\\grant\\Source\\Repos\\Final-Project-GrantFarley\\ConsoleRpgEntities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

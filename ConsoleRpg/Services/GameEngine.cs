@@ -4,68 +4,52 @@ using ConsoleRpgEntities.Models.Attributes;
 using ConsoleRpgEntities.Models.Characters;
 using ConsoleRpgEntities.Models.Characters.Monsters;
 using ConsoleRpgEntities.Models.Inventory;
+using ConsoleRpgEntities.Models.Abilities.PlayerAbilities; // Add this line
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace ConsoleRpg.Services
 {
     public class GameEngine
     {
-        private readonly IInventoryService _inventoryService;
+        private readonly GameContext _context;
+        private readonly ILogger<GameEngine> _logger;
 
-        public GameEngine(IInventoryService inventoryService)
+        public GameEngine(GameContext context, ILogger<GameEngine> logger)
         {
-            _inventoryService = inventoryService;
+            _context = context;
+            _logger = logger;
         }
 
         public void Run()
         {
-            var inventory = new List<InventoryItem>
-            {
-                new InventoryItem { Name = "Sword", Type = "Weapon", AttackValue = 50, DefenseValue = 10 },
-                new InventoryItem { Name = "Shield", Type = "Armor", AttackValue = 10, DefenseValue = 50 },
-                new InventoryItem { Name = "Bow", Type = "Weapon", AttackValue = 40, DefenseValue = 5 },
-                new InventoryItem { Name = "Helmet", Type = "Armor", AttackValue = 5, DefenseValue = 30 }
-            };
+            Console.WriteLine("GameEngine is running...");
 
-            MainMenu(inventory);
-        }
-
-        private void MainMenu(IEnumerable<InventoryItem> inventory)
-        {
             while (true)
             {
                 Console.WriteLine("Main Menu:");
-                Console.WriteLine("1. Search for an item by name");
-                Console.WriteLine("2. List items by type");
-                Console.WriteLine("3. Sort items");
-                Console.WriteLine("4. Equip an item");
-                Console.WriteLine("5. Use an item");
-                Console.WriteLine("6. Exit");
+                Console.WriteLine("1. Add a new character");
+                Console.WriteLine("2. Edit an existing character");
+                Console.WriteLine("3. Execute an ability during an attack");
+                Console.WriteLine("4. Exit");
                 Console.Write("Select an option: ");
                 var choice = Console.ReadLine();
 
                 switch (choice)
                 {
                     case "1":
-                        SearchItemByName(inventory);
+                        AddCharacter();
                         break;
 
                     case "2":
-                        ListItemsByType(inventory);
+                        EditCharacter();
                         break;
 
                     case "3":
-                        SortSubMenu(inventory);
+                        ExecuteAbilityDuringAttack();
                         break;
 
                     case "4":
-                        EquipItemMenu(inventory);
-                        break;
-
-                    case "5":
-                        UseItemMenu(inventory);
-                        break;
-
-                    case "6":
                         return;
 
                     default:
@@ -75,105 +59,145 @@ namespace ConsoleRpg.Services
             }
         }
 
-        private void SearchItemByName(IEnumerable<InventoryItem> inventory)
+        private void AddCharacter()
         {
-            Console.Write("Enter item name to search: ");
+            Console.WriteLine("Enter details for the new character:");
+
+            Console.Write("Name: ");
             var name = Console.ReadLine();
-            var searchResults = _inventoryService.SearchByName(inventory, name);
-            foreach (var item in searchResults)
-            {
-                Console.WriteLine($"Name: {item.Name}, Type: {item.Type}, Attack: {item.AttackValue}, Defense: {item.DefenseValue}");
-            }
-        }
 
-        private void ListItemsByType(IEnumerable<InventoryItem> inventory)
-        {
-            var groupedItems = _inventoryService.GroupByType(inventory);
-            foreach (var group in groupedItems)
+            Console.Write("Health: ");
+            if (!int.TryParse(Console.ReadLine(), out var health))
             {
-                Console.WriteLine($"Type: {group.Key}");
-                foreach (var item in group)
-                {
-                    Console.WriteLine($"  Name: {item.Name}, Attack: {item.AttackValue}, Defense: {item.DefenseValue}");
-                }
-            }
-        }
-
-        private void SortSubMenu(IEnumerable<InventoryItem> inventory)
-        {
-            Console.WriteLine("Sort Menu:");
-            Console.WriteLine("1. Sort by Name");
-            Console.WriteLine("2. Sort by Attack Value");
-            Console.WriteLine("3. Sort by Defense Value");
-            Console.Write("Select a sorting option: ");
-            var sortChoice = Console.ReadLine();
-
-            IEnumerable<InventoryItem> sortedItems = sortChoice switch
-            {
-                "1" => _inventoryService.SortByName(inventory),
-                "2" => _inventoryService.SortByAttackValue(inventory),
-                "3" => _inventoryService.SortByDefenseValue(inventory),
-                _ => null
-            };
-
-            if (sortedItems == null)
-            {
-                Console.WriteLine("Invalid option. Returning to main menu.");
+                Console.WriteLine("Invalid input for Health. Operation canceled.");
                 return;
             }
 
-            foreach (var item in sortedItems)
+            Console.Write("Attack: ");
+            if (!int.TryParse(Console.ReadLine(), out var attack))
             {
-                Console.WriteLine($"Name: {item.Name}, Type: {item.Type}, Attack: {item.AttackValue}, Defense: {item.DefenseValue}");
+                Console.WriteLine("Invalid input for Attack. Operation canceled.");
+                return;
             }
+
+            Console.Write("Defense: ");
+            if (!int.TryParse(Console.ReadLine(), out var defense))
+            {
+                Console.WriteLine("Invalid input for Defense. Operation canceled.");
+                return;
+            }
+
+            var newCharacter = new Player
+            {
+                Name = name,
+                Health = health,
+                Experience = 0,
+                EquipmentId = null, // No equipment by default
+                Inventory = new Inventory(),
+                Abilities = new List<Ability>()
+            };
+
+            _context.Players.Add(newCharacter);
+            _context.SaveChanges();
+
+            _logger.LogInformation($"Character '{name}' added successfully.");
+            Console.WriteLine($"Character '{name}' added successfully!");
         }
 
-        private void EquipItemMenu(IEnumerable<InventoryItem> inventory)
+        private void EditCharacter()
         {
-            Console.Write("Enter item name to equip: ");
-            var equipName = Console.ReadLine();
-            var equipItem = _inventoryService.SearchByName(inventory, equipName).FirstOrDefault();
-            if (equipItem != null)
+            Console.WriteLine("Enter the ID of the character to edit:");
+            if (!int.TryParse(Console.ReadLine(), out var id))
             {
-                EquipItem(equipItem);
+                Console.WriteLine("Invalid input for ID. Operation canceled.");
+                return;
             }
-            else
+
+            var character = _context.Players.FirstOrDefault(p => p.Id == id);
+            if (character == null)
             {
-                Console.WriteLine("Item not found.");
+                Console.WriteLine("Character not found.");
+                return;
             }
+
+            Console.WriteLine($"Editing character: {character.Name}");
+
+            Console.Write("New Health (leave blank to keep current): ");
+            var healthInput = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(healthInput) && int.TryParse(healthInput, out var newHealth))
+            {
+                character.Health = newHealth;
+            }
+
+            Console.Write("New Attack (leave blank to keep current): ");
+            var attackInput = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(attackInput) && int.TryParse(attackInput, out var newAttack))
+            {
+                character.Equipment.Weapon.Attack = newAttack;
+            }
+
+            Console.Write("New Defense (leave blank to keep current): ");
+            var defenseInput = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(defenseInput) && int.TryParse(defenseInput, out var newDefense))
+            {
+                character.Equipment.Armor.Defense = newDefense;
+            }
+
+            _context.SaveChanges();
+
+            _logger.LogInformation($"Character '{character.Name}' updated successfully.");
+            Console.WriteLine($"Character '{character.Name}' updated successfully!");
         }
 
-        private void UseItemMenu(IEnumerable<InventoryItem> inventory)
+        private void ExecuteAbilityDuringAttack()
         {
-            Console.Write("Enter item name to use: ");
-            var useName = Console.ReadLine();
-            var useItem = _inventoryService.SearchByName(inventory, useName).FirstOrDefault();
-            if (useItem != null)
+            Console.WriteLine("Enter the ID of the attacking character:");
+            if (!int.TryParse(Console.ReadLine(), out var attackerId))
             {
-                UseItem(useItem);
+                Console.WriteLine("Invalid input for ID. Operation canceled.");
+                return;
             }
-            else
-            {
-                Console.WriteLine("Item not found.");
-            }
-        }
 
-        private void EquipItem(InventoryItem item)
-        {
-            if (item.AttackValue > 0 || item.DefenseValue > 0)
+            var attacker = _context.Players.Include(p => p.Abilities).FirstOrDefault(p => p.Id == attackerId);
+            if (attacker == null)
             {
-                Console.WriteLine($"Equipped {item.Name}.");
+                Console.WriteLine("Attacking character not found.");
+                return;
             }
-            else
-            {
-                Console.WriteLine($"{item.Name} cannot be equipped.");
-            }
-        }
 
-        private void UseItem(InventoryItem item)
-        {
-            Console.WriteLine($"Used {item.Name}.");
+            Console.WriteLine("Enter the ID of the target character:");
+            if (!int.TryParse(Console.ReadLine(), out var targetId))
+            {
+                Console.WriteLine("Invalid input for ID. Operation canceled.");
+                return;
+            }
+
+            var target = _context.Players.FirstOrDefault(p => p.Id == targetId);
+            if (target == null)
+            {
+                Console.WriteLine("Target character not found.");
+                return;
+            }
+
+            Console.WriteLine($"Attacker: {attacker.Name}, Target: {target.Name}");
+            Console.WriteLine("Available Abilities:");
+            for (int i = 0; i < attacker.Abilities.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {attacker.Abilities.ElementAt(i).Name}");
+            }
+
+            Console.Write("Select an ability to use: ");
+            if (!int.TryParse(Console.ReadLine(), out var abilityIndex) || abilityIndex < 1 || abilityIndex > attacker.Abilities.Count)
+            {
+                Console.WriteLine("Invalid ability selection. Operation canceled.");
+                return;
+            }
+
+            var selectedAbility = attacker.Abilities.ElementAt(abilityIndex - 1);
+            selectedAbility.Activate(attacker, target);
+
+            Console.WriteLine($"Ability '{selectedAbility.Name}' executed by {attacker.Name} on {target.Name}.");
+            _logger.LogInformation($"Ability '{selectedAbility.Name}' executed by {attacker.Name} on {target.Name}.");
         }
     }
 }
-

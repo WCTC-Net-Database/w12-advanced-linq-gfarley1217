@@ -1,5 +1,4 @@
-﻿using Castle.Core.Configuration;
-using ConsoleRpg.Helpers;
+﻿using ConsoleRpg.Helpers;
 using ConsoleRpg.Services;
 using ConsoleRpgEntities.Data;
 using ConsoleRpgEntities.Helpers;
@@ -19,13 +18,6 @@ public static class Startup
         // Build configuration
         var configuration = ConfigurationHelper.GetConfiguration();
 
-        // Create and bind FileLoggerOptions
-        var fileLoggerOptions = new NReco.Logging.File.FileLoggerOptions
-        {
-            Append = true // Enable appending to the log file
-        };
-        configuration.GetSection("Logging:File").Bind(fileLoggerOptions);
-
         // Configure logging
         services.AddLogging(loggingBuilder =>
         {
@@ -35,8 +27,9 @@ public static class Startup
             // Add Console logger
             loggingBuilder.AddConsole();
 
-            // Add File logger using the correct constructor
+            // Add File logger
             var logFileName = "Logs/log.txt"; // Specify the log file path
+            var fileLoggerOptions = new FileLoggerOptions { Append = true };
             loggingBuilder.AddProvider(new FileLoggerProvider(logFileName, fileLoggerOptions));
         });
 
@@ -47,12 +40,14 @@ public static class Startup
             ConfigurationHelper.ConfigureDbContextOptions(options, connectionString);
         });
 
-        // Register your services
+        // Register GameEngine as the primary service
         services.AddTransient<GameEngine>();
-        services.AddTransient<MenuManager>();
-        services.AddSingleton<OutputManager>();
 
-        // Register InventoryService
+        // Remove or comment out MenuManager if it's not needed
+        // services.AddTransient<MenuManager>();
+
+        // Register other services
+        services.AddSingleton<OutputManager>();
         services.AddSingleton<IInventoryService, InventoryService>();
     }
 }

@@ -223,6 +223,18 @@
           }
         }
       },
+      "Microsoft.EntityFrameworkCore.Tools/6.0.35": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Design": "6.0.35"
+        },
+        "compile": {
+          "lib/net6.0/_._": {}
+        },
+        "runtime": {
+          "lib/net6.0/_._": {}
+        }
+      },
       "Microsoft.Extensions.Caching.Abstractions/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -2487,23 +2499,6 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlDocument.dll": {}
         }
-      },
-      "ConsoleRpgEntities/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore": "6.0.35",
-          "Microsoft.EntityFrameworkCore.Proxies": "6.0.35",
-          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.35",
-          "Microsoft.Extensions.Configuration.EnvironmentVariables": "6.0.0",
-          "Microsoft.Extensions.Configuration.Json": "6.0.0"
-        },
-        "compile": {
-          "bin/placeholder/ConsoleRpgEntities.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/ConsoleRpgEntities.dll": {}
-        }
       }
     }
   },
@@ -2802,6 +2797,31 @@
         "lib/net6.0/Microsoft.EntityFrameworkCore.SqlServer.xml",
         "microsoft.entityframeworkcore.sqlserver.6.0.35.nupkg.sha512",
         "microsoft.entityframeworkcore.sqlserver.nuspec"
+      ]
+    },
+    "Microsoft.EntityFrameworkCore.Tools/6.0.35": {
+      "sha512": "3zc8pE7wzfB/9V7/eQB0O2obELKa+/Iy6KL0cwQWo+z8uZcHCHGhzieeKWHXQE/ZWibJY3W4ps87bWb9ByLBkQ==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.tools/6.0.35",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/net6.0/_._",
+        "microsoft.entityframeworkcore.tools.6.0.35.nupkg.sha512",
+        "microsoft.entityframeworkcore.tools.nuspec",
+        "tools/EntityFrameworkCore.PS2.psd1",
+        "tools/EntityFrameworkCore.PS2.psm1",
+        "tools/EntityFrameworkCore.psd1",
+        "tools/EntityFrameworkCore.psm1",
+        "tools/about_EntityFrameworkCore.help.txt",
+        "tools/init.ps1",
+        "tools/net461/any/ef.exe",
+        "tools/net461/win-arm64/ef.exe",
+        "tools/net461/win-x86/ef.exe",
+        "tools/netcoreapp2.0/any/ef.dll",
+        "tools/netcoreapp2.0/any/ef.runtimeconfig.json"
       ]
     },
     "Microsoft.Extensions.Caching.Abstractions/6.0.0": {
@@ -7665,17 +7685,17 @@
         "system.xml.xmldocument.4.3.0.nupkg.sha512",
         "system.xml.xmldocument.nuspec"
       ]
-    },
-    "ConsoleRpgEntities/1.0.0": {
-      "type": "project",
-      "path": "../ConsoleRpgEntities/ConsoleRpgEntities.csproj",
-      "msbuildProject": "../ConsoleRpgEntities/ConsoleRpgEntities.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "ConsoleRpgEntities >= 1.0.0",
+      "Microsoft.EntityFrameworkCore >= 6.0.35",
       "Microsoft.EntityFrameworkCore.Design >= 6.0.35",
+      "Microsoft.EntityFrameworkCore.Proxies >= 6.0.35",
+      "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.35",
+      "Microsoft.EntityFrameworkCore.Tools >= 6.0.35",
+      "Microsoft.Extensions.Configuration.EnvironmentVariables >= 6.0.0",
+      "Microsoft.Extensions.Configuration.Json >= 6.0.0",
       "Microsoft.Extensions.DependencyInjection >= 8.0.0",
       "Microsoft.Extensions.Logging >= 6.0.0",
       "Microsoft.Extensions.Logging.Console >= 6.0.0",
@@ -7689,11 +7709,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\grant\\Source\\Repos\\w12-advanced-linq-gfarley1217\\ConsoleRpg\\ConsoleRpg.csproj",
+      "projectUniqueName": "C:\\Users\\grant\\Source\\Repos\\Final-Project-GrantFarley\\ConsoleRpg\\ConsoleRpg.csproj",
       "projectName": "ConsoleRpg",
-      "projectPath": "C:\\Users\\grant\\Source\\Repos\\w12-advanced-linq-gfarley1217\\ConsoleRpg\\ConsoleRpg.csproj",
+      "projectPath": "C:\\Users\\grant\\Source\\Repos\\Final-Project-GrantFarley\\ConsoleRpg\\ConsoleRpg.csproj",
       "packagesPath": "C:\\Users\\grant\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\grant\\source\\repos\\w12-advanced-linq-gfarley1217\\ConsoleRpg\\obj\\",
+      "outputPath": "C:\\Users\\grant\\Source\\Repos\\Final-Project-GrantFarley\\ConsoleRpg\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -7713,11 +7733,7 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {
-            "C:\\Users\\grant\\Source\\Repos\\w12-advanced-linq-gfarley1217\\ConsoleRpgEntities\\ConsoleRpgEntities.csproj": {
-              "projectPath": "C:\\Users\\grant\\Source\\Repos\\w12-advanced-linq-gfarley1217\\ConsoleRpgEntities\\ConsoleRpgEntities.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {
@@ -7736,11 +7752,37 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[6.0.35, )"
+          },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
             "target": "Package",
             "version": "[6.0.35, )"
+          },
+          "Microsoft.EntityFrameworkCore.Proxies": {
+            "target": "Package",
+            "version": "[6.0.35, )"
+          },
+          "Microsoft.EntityFrameworkCore.SqlServer": {
+            "target": "Package",
+            "version": "[6.0.35, )"
+          },
+          "Microsoft.EntityFrameworkCore.Tools": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[6.0.35, )"
+          },
+          "Microsoft.Extensions.Configuration.EnvironmentVariables": {
+            "target": "Package",
+            "version": "[6.0.0, )"
+          },
+          "Microsoft.Extensions.Configuration.Json": {
+            "target": "Package",
+            "version": "[6.0.0, )"
           },
           "Microsoft.Extensions.DependencyInjection": {
             "target": "Package",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "sNwUTBLy65M=",
+  "dgSpecHash": "3eigTsmAcmE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\grant\\Source\\Repos\\w12-advanced-linq-gfarley1217\\ConsoleRpg\\ConsoleRpg.csproj",
+  "projectFilePath": "C:\\Users\\grant\\Source\\Repos\\Final-Project-GrantFarley\\ConsoleRpg\\ConsoleRpg.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\grant\\.nuget\\packages\\castle.core\\4.4.1\\castle.core.4.4.1.nupkg.sha512",
     "C:\\Users\\grant\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
@@ -16,6 +16,7 @@
     "C:\\Users\\grant\\.nuget\\packages\\microsoft.entityframeworkcore.proxies\\6.0.35\\microsoft.entityframeworkcore.proxies.6.0.35.nupkg.sha512",
     "C:\\Users\\grant\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.35\\microsoft.entityframeworkcore.relational.6.0.35.nupkg.sha512",
     "C:\\Users\\grant\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\6.0.35\\microsoft.entityframeworkcore.sqlserver.6.0.35.nupkg.sha512",
+    "C:\\Users\\grant\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\6.0.35\\microsoft.entityframeworkcore.tools.6.0.35.nupkg.sha512",
     "C:\\Users\\grant\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\6.0.0\\microsoft.extensions.caching.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\grant\\.nuget\\packages\\microsoft.extensions.caching.memory\\6.0.2\\microsoft.extensions.caching.memory.6.0.2.nupkg.sha512",
     "C:\\Users\\grant\\.nuget\\packages\\microsoft.extensions.configuration\\6.0.0\\microsoft.extensions.configuration.6.0.0.nupkg.sha512",
